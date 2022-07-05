@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Cat Viewer</string>
+    <string name="gallery_cat">cat</string>
 </resources>

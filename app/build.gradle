@@ -13,12 +13,30 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions{
+            annotationProcessorOptions{
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+        buildFeatures {
+            viewBinding true
+        }
     }
 
     buildTypes {
+        debug{
+            Properties localProp = new Properties()
+            localProp.load(new FileInputStream("local.properties"))
+            buildConfigField "String", "API_URL","\""+localProp['BASE_URL']+"\""
+            buildConfigField "String", "API_KEY","\""+localProp['API_KEY']+"\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            Properties localProp = new Properties()
+            localProp.load(new FileInputStream("local.properties"))
+            buildConfigField "String", "API_URL","\""+localProp['BASE_URL']+"\""
+            buildConfigField "String", "API_KEY","\""+localProp['API_KEY']+"\""
         }
     }
     compileOptions {

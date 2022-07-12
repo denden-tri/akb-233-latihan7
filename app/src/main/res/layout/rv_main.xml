@@ -19,5 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="@string/gallery_cat"
+        android:src="@drawable/ic_baseline_image_24"
         />
 </com.google.android.material.card.MaterialCardView>

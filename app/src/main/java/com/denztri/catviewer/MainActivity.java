@@ -4,21 +4,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.denztri.catviewer.databinding.ActivityMainBinding;
 
 import java.io.IOException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private MainAdapter mainAdapter;
     private ActivityMainBinding binding;
     private MainViewModel viewModel;
+    private final Executor executors = Executors.newSingleThreadExecutor();
+    android.os.Handler handler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         initRecycle();
 
+        SwipeRefreshLayout swipeRefreshLayout = binding.mainSwipe;
+        swipeRefreshLayout.setOnRefreshListener(() -> executors.execute(() -> {
+            viewModel.deleteGallery();
+            viewModel.loadCatList();
+            handler.post(() -> swipeRefreshLayout.setRefreshing(false));
+        }));
 
         setContentView(view);
     }

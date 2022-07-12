@@ -48,7 +48,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MainAdapterVie
                 .centerCrop()
                 .fallback(R.drawable.ic_baseline_broken_image_24)
                 .into(holder.img);
-        Log.d("URL", url);
     }
 
     @Override
